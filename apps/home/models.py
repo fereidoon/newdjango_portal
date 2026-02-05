@@ -5,8 +5,11 @@ Models for the home app.
 from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.search import index
+from wagtail.images.models import Image
+from modelcluster.fields import ParentalKey
+from modelcluster.contrib.taggit import ClusterTaggableManager
 
 
 class HomePage(Page):
@@ -82,3 +85,67 @@ class BlogPage(Page):
     class Meta:
         verbose_name = "Blog Page"
         verbose_name_plural = "Blog Pages"
+
+
+class GalleryPage(Page):
+    """
+    Professional photo gallery page.
+    """
+    
+    intro = RichTextField(blank=True, help_text='Gallery introduction text')
+    description = RichTextField(blank=True, help_text='Gallery description')
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+        FieldPanel('description'),
+        InlinePanel('gallery_images', label='Gallery Images'),
+    ]
+
+    parent_page_types = ['wagtailcore.Page']
+    subpage_types = []
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['gallery_images'] = self.gallery_images.all()
+        return context
+
+    class Meta:
+        verbose_name = "Gallery Page"
+        verbose_name_plural = "Gallery Pages"
+
+
+class GalleryImage(models.Model):
+    """
+    Image model for gallery - linked to GalleryPage.
+    """
+    
+    gallery_page = ParentalKey(
+        GalleryPage,
+        on_delete=models.CASCADE,
+        related_name='gallery_images'
+    )
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    title = models.CharField(max_length=255, blank=True, help_text='Image title')
+    caption = models.CharField(max_length=500, blank=True, help_text='Image caption')
+    order = models.PositiveIntegerField(default=0, help_text='Gallery image order')
+
+    panels = [
+        FieldPanel('image'),
+        FieldPanel('title'),
+        FieldPanel('caption'),
+        FieldPanel('order'),
+    ]
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Gallery Image"
+        verbose_name_plural = "Gallery Images"
+
+    def __str__(self):
+        return self.title or f"Image from {self.gallery_page.title}"

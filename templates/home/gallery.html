@@ -1,0 +1,65 @@
+{% extends "base/base.html" %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+<div class="gallery-container">
+    <div class="gallery-header">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}
+            <div class="gallery-intro">
+                {{ page.intro|safe }}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if page.description %}
+        <div class="gallery-description">
+            {{ page.description|safe }}
+        </div>
+    {% endif %}
+
+    <div class="gallery-grid">
+        {% for gallery_image in gallery_images %}
+            <div class="gallery-item">
+                <div class="gallery-image-wrapper">
+                    {% image gallery_image.image width-500 as img %}
+                    <a href="{% image_url gallery_image.image 'original' %}" class="gallery-link" data-lightbox="gallery" data-title="{{ gallery_image.title }}">
+                        <img src="{{ img.url }}" alt="{{ gallery_image.title }}" class="gallery-image" loading="lazy">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% if gallery_image.title or gallery_image.caption %}
+                    <div class="gallery-info">
+                        {% if gallery_image.title %}
+                            <h3>{{ gallery_image.title }}</h3>
+                        {% endif %}
+                        {% if gallery_image.caption %}
+                            <p>{{ gallery_image.caption }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="no-gallery-images">
+                <p>هیچ تصویری در گالری موجود نیست</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+<script>
+    // Initialize lightbox for all gallery links
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': 'تصویر %1 از %2',
+        'fadeDuration': 600
+    })
+</script>
+{% endblock %}
