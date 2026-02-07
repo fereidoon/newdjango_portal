@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+
+{% block title %}اعلان‌ها — پورتال{% endblock %}
+
+{% block content %}
+<section class="container my-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">اعلان‌های سازمان</h1>
+        {% if page.intro %}
+            <div class="lead">{{ page.intro|richtext }}</div>
+        {% endif %}
+    </div>
+
+    <div class="row g-4">
+        {% for announcement in announcement_posts %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ announcement.title }}</h5>
+                        <p class="card-text small">{{ announcement.specific.summary }}</p>
+                        <a class="btn btn-sm btn-outline-primary mt-auto" href="{{ announcement.url }}">مشاهده اعلان</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">اعلانی برای نمایش وجود ندارد.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
