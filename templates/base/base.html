@@ -21,26 +21,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
     
     {% block extra_css %}
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">        <link rel=\"stylesheet\" href=\"{% static 'css/main.css' %}\">    {% endblock %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% endblock %}
 </head>
 
 <body>
+    <div class="topbar py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="topbar-info d-flex align-items-center gap-3">
+                <span><i class="fas fa-envelope ms-1"></i>info@portal.ir</span>
+                <span><i class="fas fa-phone ms-1"></i>021-00000000</span>
+            </div>
+            <div class="topbar-actions d-flex align-items-center gap-3">
+                <a href="#" class="text-decoration-none">پیگیری سفارش</a>
+                <a href="/admin/" class="text-decoration-none">ورود</a>
+            </div>
+        </div>
+    </div>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">
-                <i class="fas fa-globe me-2"></i>پورتال
+                <span class="brand-mark me-2"><i class="fas fa-layer-group"></i></span>
+                پورتال
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
                         <a class="nav-link active" href="/">صفحه اصلی</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/blog/">وبلاگ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news/">اخبار</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/announcements/">اعلان‌ها</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/gallery/">گالری</a>
@@ -52,7 +72,7 @@
                         <a class="nav-link" href="#">تماس</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/">مدیریت</a>
+                        <a class="nav-link btn btn-primary btn-sm text-white px-3" href="/admin/">مدیریت</a>
                     </li>
                 </ul>
             </div>
