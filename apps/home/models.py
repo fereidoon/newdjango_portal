@@ -24,7 +24,12 @@ class HomePage(Page):
         FieldPanel('intro')
     ]
 
-    subpage_types = []
+    subpage_types = [
+        'home.AnnouncementIndexPage',
+        'home.BlogIndexPage',
+        'home.GalleryPage',
+        'home.NewsIndexPage',
+    ]
 
     def __str__(self):
         return self.title
@@ -85,6 +90,112 @@ class BlogPage(Page):
     class Meta:
         verbose_name = "Blog Page"
         verbose_name_plural = "Blog Pages"
+
+
+class NewsIndexPage(Page):
+    """
+    News index page that lists all news posts.
+    """
+
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+    ]
+
+    subpage_types = ['home.NewsPage']
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['news_posts'] = self.get_children().live().order_by('-first_published_at')
+        return context
+
+    class Meta:
+        verbose_name = "News Index Page"
+        verbose_name_plural = "News Index Pages"
+
+
+class NewsPage(Page):
+    """
+    Individual news post page.
+    """
+
+    date = models.DateField("News date", auto_now_add=True)
+    intro = models.CharField(max_length=250)
+    body = RichTextField()
+
+    search_fields = Page.search_fields + [
+        index.SearchField('intro'),
+        index.SearchField('body'),
+    ]
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+        FieldPanel('body'),
+    ]
+
+    parent_page_types = ['home.NewsIndexPage']
+    subpage_types = []
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "News Page"
+        verbose_name_plural = "News Pages"
+
+
+class AnnouncementIndexPage(Page):
+    """
+    Announcement index page that lists all announcements.
+    """
+
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro'),
+    ]
+
+    subpage_types = ['home.AnnouncementPage']
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['announcement_posts'] = self.get_children().live().order_by('-first_published_at')
+        return context
+
+    class Meta:
+        verbose_name = "Announcement Index Page"
+        verbose_name_plural = "Announcement Index Pages"
+
+
+class AnnouncementPage(Page):
+    """
+    Individual announcement page.
+    """
+
+    date = models.DateField("Announcement date", auto_now_add=True)
+    summary = models.CharField(max_length=250)
+    body = RichTextField()
+
+    search_fields = Page.search_fields + [
+        index.SearchField('summary'),
+        index.SearchField('body'),
+    ]
+
+    content_panels = Page.content_panels + [
+        FieldPanel('summary'),
+        FieldPanel('body'),
+    ]
+
+    parent_page_types = ['home.AnnouncementIndexPage']
+    subpage_types = []
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Announcement Page"
+        verbose_name_plural = "Announcement Pages"
 
 
 class GalleryPage(Page):

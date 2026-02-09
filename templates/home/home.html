@@ -5,17 +5,53 @@
 
 {% block content %}
     <!-- Hero Section -->
-    <section class="hero-section mb-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 0; border-radius: 10px;">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">خوش آمدید به پورتال</h1>
-            <p class="lead mb-4">یک پونل مدیریت محتوا مدرن و قدرتمند برای وب‌سایت شما</p>
-            <a href="/admin/" class="btn btn-light btn-lg">شروع کنید</a>
+    <section class="hero-section mb-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <span class="badge hero-badge mb-3">پورتال سازمانی</span>
+                    <h1 class="display-5 fw-bold mb-3">همه چیز برای مدیریت هوشمند محتوا</h1>
+                    <p class="lead mb-4">پلتفرمی مشابه قالب‌های حرفه‌ای RTL برای مدیریت اخبار، اعلان‌ها و محتوای سازمانی با تجربه کاملاً راست‌چین.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="/admin/" class="btn btn-primary btn-lg">شروع کنید</a>
+                        <a href="/news/" class="btn btn-outline-light btn-lg">مشاهده اخبار</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-card shadow-lg">
+                        <div class="hero-card-header d-flex align-items-center justify-content-between">
+                            <span>داشبورد مدیریت</span>
+                            <span class="badge bg-success">آنلاین</span>
+                        </div>
+                        <div class="hero-card-body">
+                            <div class="stat-item">
+                                <span class="stat-label">اخبار امروز</span>
+                                <span class="stat-value">۱۲</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">اعلان‌های فعال</span>
+                                <span class="stat-value">۵</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">بازدید ماهانه</span>
+                                <span class="stat-value">۲۴K</span>
+                            </div>
+                        </div>
+                        <div class="hero-card-footer">
+                            <span class="text-muted">آخرین بروزرسانی: امروز</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section class="features-section mb-5">
-        <h2 class="text-center mb-4">ویژگی های اصلی</h2>
+        <div class="section-title text-center mb-4">
+            <h2>ویژگی های اصلی</h2>
+            <p class="text-muted">طراحی شده برای سازمان‌هایی که تجربه حرفه‌ای می‌خواهند.</p>
+        </div>
         <div class="row g-4">
             <div class="col-md-6 col-lg-3">
                 <div class="feature-card card h-100 border-0 shadow-sm">
@@ -65,7 +101,7 @@
     </section>
 
     <!-- About Section -->
-    <section class="about-section mb-5 bg-light p-4 rounded">
+    <section class="about-section mb-5">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h2>درباره این پورتال</h2>
@@ -78,8 +114,8 @@
                 </ul>
             </div>
             <div class="col-lg-6">
-                <div class="alert alert-info" role="alert">
-                    <h4 class="alert-heading">راهنمایی شروع</h4>
+                <div class="info-card">
+                    <h4 class="mb-3">راهنمایی شروع</h4>
                     <p>برای شروع، به <a href="/admin/">پنل مدیریت</a> بروید و صفحات جدید ایجاد کنید.</p>
                     <ul class="mb-0 ps-3">
                         <li>بر روی "صفحات" کلیک کنید</li>
@@ -91,44 +127,58 @@
         </div>
     </section>
 
-    <!-- Recent Posts Section -->
+    <!-- Latest News Section -->
     <section class="blog-section mb-5">
-        <h2 class="text-center mb-4">آخرین مقالات</h2>
-        <div class="row g-4" id="recent-posts">
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">مقالهٔ نمونه ۱</h5>
-                        <p class="card-text small">این یک مقاله نمونه است که می‌توانید آن را ویرایش یا حذف کنید.</p>
-                        <a href="#" class="btn btn-sm btn-primary">ادامه خواندن</a>
+        <div class="section-title text-center mb-4">
+            <h2>آخرین اخبار</h2>
+            <p class="text-muted">تازه‌ترین خبرهای سازمان را دنبال کنید.</p>
+        </div>
+        <div class="row g-4">
+            {% for news in news_items %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ news.title }}</h5>
+                            <p class="card-text small">{{ news.intro }}</p>
+                            <a href="{{ news.url }}" class="btn btn-sm btn-primary mt-auto">مشاهده خبر</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">مقالهٔ نمونه ۲</h5>
-                        <p class="card-text small">یک مقالهٔ دیگر برای نمایش سروصورت وبلاگ شما.</p>
-                        <a href="#" class="btn btn-sm btn-primary">ادامه خواندن</a>
+            {% empty %}
+                <p class="text-center">خبری برای نمایش وجود ندارد.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Latest Announcements Section -->
+    <section class="announcement-section mb-5">
+        <div class="section-title text-center mb-4">
+            <h2>آخرین اعلان‌ها</h2>
+            <p class="text-muted">خلاصه اعلان‌های مهم سازمانی.</p>
+        </div>
+        <div class="row g-4">
+            {% for announcement in announcement_items %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ announcement.title }}</h5>
+                            <p class="card-text small">{{ announcement.summary }}</p>
+                            <a href="{{ announcement.url }}" class="btn btn-sm btn-outline-primary mt-auto">مشاهده اعلان</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">مقالهٔ نمونه ۳</h5>
-                        <p class="card-text small">سومین مقالهٔ نمونه برای نمایش صفحه بندی.</p>
-                        <a href="#" class="btn btn-sm btn-primary">ادامه خواندن</a>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+                <p class="text-center">اعلانی برای نمایش وجود ندارد.</p>
+            {% endfor %}
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; border-radius: 10px; text-align: center;">
-        <h2 class="mb-3">آماده به شروع؟</h2>
-        <p class="lead mb-4">پورتال خود را اکنون دسترسی کنید و شروع به ایجاد محتوا کنید</p>
-        <a href="/admin/" class="btn btn-light btn-lg">ورود به پنل مدیریت</a>
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="mb-3">آماده به شروع؟</h2>
+            <p class="lead mb-4">پورتال خود را اکنون دسترسی کنید و شروع به ایجاد محتوا کنید</p>
+            <a href="/admin/" class="btn btn-light btn-lg">ورود به پنل مدیریت</a>
+        </div>
     </section>
 {% endblock %}
